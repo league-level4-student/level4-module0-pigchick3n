@@ -17,6 +17,7 @@ public class GridPanel extends JPanel{
 	private int cols;
 	
 	//1. Create a 2D array of pixels. Do not initialize it yet.
+	Pixel[][] pixelarray;
 	
 	private Color color;
 	
@@ -34,10 +35,15 @@ public class GridPanel extends JPanel{
 		setPreferredSize(new Dimension(windowWidth, windowHeight));
 		
 		//2. Initialize the pixel array using the rows and cols variables.
-		
+		pixelarray = new Pixel[rows][cols];
 		
 		//3. Iterate through the array and initialize each element to a new pixel.
-		
+		for (int i = 0; i < pixelarray.length; i++) {
+			for (int j = 0; j < pixelarray[i].length; j++) {
+				Pixel pixelx = new Pixel(i * (w / r), j * (h / c));
+				pixelarray[i][j] = pixelx;
+			}
+		}
 		
 	}
 	
@@ -48,6 +54,12 @@ public class GridPanel extends JPanel{
 	public void clickPixel(int mouseX, int mouseY) {
 		//5. Use the mouseX and mouseY variables to change the color
 		//   of the pixel that was clicked. *HINT* Use the pixel's dimensions.
+		int i = (int) mouseX / pixelWidth;
+		int j = (int) mouseY / pixelHeight;
+		Pixel temporar = pixelarray[i][j];
+		setColor(color);
+		temporar.color = color;
+
 	}
 	
 	@Override
@@ -55,6 +67,13 @@ public class GridPanel extends JPanel{
 		//4. Iterate through the array.
 		//   For every pixel in the list, fill in a rectangle using the pixel's color.
 		//   Then, use drawRect to add a grid pattern to your display.
-		
+		for (int i = 0; i < pixelarray.length; i++) {
+			for (int j = 0; j < pixelarray[i].length; j++) {
+				Pixel temporar = pixelarray[i][j];
+				g.setColor(temporar.color);
+				g.fillRect(temporar.x, temporar.y, temporar.x + (windowWidth / rows),
+						temporar.y + (windowHeight / cols));
+			}
+		}
 	}
 }
