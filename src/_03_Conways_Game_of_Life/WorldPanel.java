@@ -31,23 +31,41 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//2. Calculate the cell size.
 		cellSize = w / cellsPerRow;
 		//3. Initialize the cell array to the appropriate size.
-		
+		cellArray = new Cell[cellsPerRow][cellsPerRow];
 		//3. Iterate through the array and initialize each cell.
 		//   Don't forget to consider the cell's dimensions when 
 		//   passing in the location.
+		for (int i = 0; i < cellArray.length; i++) {
+			for (int j = 0; j < cellArray.length; j++) {
+
+				cellArray[i][j] = new Cell(i, j, cellSize);
+
+			}
+		}
 		
 	}
 	
 	public void randomizeCells() {
 		//4. Iterate through each cell and randomly set each
 		//   cell's isAlive memeber to true of false
-		
+		for (int i = 0; i < cellArray.length; i++) {
+			for (int j = 0; j < cellArray.length; j++) {
+				boolean maybe = new Random().nextBoolean();
+
+				cellArray[i][j].isAlive = maybe;
+				System.out.println(maybe);
+			}
+		}
 		repaint();
 	}
 	
 	public void clearCells() {
 		//5. Iterate through the cells and set them all to dead.
-		
+		for (int i = 0; i < cellArray.length; i++) {
+			for (int j = 0; j < cellArray.length; j++) {
+				cellArray[i][j].isAlive = false;
+			}
+		}
 		repaint();
 	}
 	
@@ -66,7 +84,9 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	@Override
 	public void paintComponent(Graphics g) {
 		//6. Iterate through the cells and draw them all
-		
+		for (int i = 0; i < cellArray.length; i++) {
+			for (int j = 0; j < cellArray.length; j++) {
+				cellArray[i][j].draw(g);
 		
 		
 		// draws grid
@@ -78,7 +98,12 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	public void step() {
 		//7. iterate through cells and fill in the livingNeighbors array
 		// . using the getLivingNeighbors method.
-		int[][] livingNeighbors = new int[cellsPerRow][cellsPerRow];
+		for (int i = 0; i < cellArray.length; i++) {
+			for (int j = 0; j < cellArray.length; j++) {
+				int livingNeighbors = getLivingNeighbors(cellArray[i][j].getX(), cellArray[i][j].getY());
+				cellArray[i][j].liveOrDie(livingNeighbors);
+			}
+		}
 		
 		//8. check if each cell should live or die
 	
