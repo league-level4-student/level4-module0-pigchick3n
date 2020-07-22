@@ -141,7 +141,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 			counter++;
 		}
 		if (x != 0 && cellArray[x - 1][y].isAlive) {
-
+			counter++;
 		}
 		return counter;
 	}
